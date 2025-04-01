@@ -1,4 +1,3 @@
-
 import { useParams } from 'wouter';
 import { useQuery } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
@@ -8,7 +7,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 export default function ProfilePage() {
   const { username } = useParams();
-  
+
   const { data: profile, isLoading } = useQuery({
     queryKey: ['profile', username],
     queryFn: () => apiRequest('GET', `/api/profile/${username}`),
