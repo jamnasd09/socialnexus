@@ -86,7 +86,7 @@ export function ForumLayout() {
               variant="ghost"
               size="icon"
               className="rounded-full"
-              onClick={() => setLocation('/profile')}
+              onClick={() => setSettingsModalOpen(true)}
             >
               {user?.avatar ? (
                 <img

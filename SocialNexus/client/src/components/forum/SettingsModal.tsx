@@ -28,6 +28,7 @@ export default function SettingsModal({
   const { toast } = useToast();
   const { uploadFile, isUploading } = useFileUpload();
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [coverPreviewUrl, setCoverPreviewUrl] = useState<string | null>(null);
   const [displayName, setDisplayName] = useState(user?.displayName || '');
   const [bio, setBio] = useState(user?.bio || '');
   const [notifications, setNotifications] = useState({
@@ -109,6 +110,46 @@ export default function SettingsModal({
 
             <TabsContent value="profile" className="space-y-6">
               <div className="flex flex-col items-center space-y-4 p-6 bg-white/50 backdrop-blur-sm rounded-lg">
+                <div className="relative w-full h-32 mb-16 group">
+                  <div className="w-full h-full bg-gradient-to-r from-blue-400 to-blue-600 rounded-t-lg overflow-hidden">
+                    {(coverPreviewUrl || user?.coverPhoto) && (
+                      <img src={coverPreviewUrl || user?.coverPhoto} alt="Cover" className="w-full h-full object-cover" />
+                    )}
+                  </div>
+                  <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40">
+                    <label className="cursor-pointer p-2 hover:bg-white/20 rounded-full">
+                      <input 
+                        type="file" 
+                        className="hidden" 
+                        accept="image/*"
+                        onChange={async (e) => {
+                          const file = e.target.files?.[0];
+                          if (!file) return;
+
+                          const reader = new FileReader();
+                          reader.onloadend = () => {
+                            setCoverPreviewUrl(reader.result as string);
+                          };
+                          reader.readAsDataURL(file);
+
+                          const result = await uploadFile(file);
+                          if (result.success && result.fileUrl) {
+                            await updateProfile({ coverPhoto: result.fileUrl });
+                            toast({
+                              title: "Kapak fotoğrafı güncellendi",
+                              description: "Fotoğrafınız başarıyla yüklendi.",
+                            });
+                          }
+                        }}
+                      />
+                      {isUploading ? (
+                        <Loader2 className="h-6 w-6 text-white animate-spin" />
+                      ) : (
+                        <Upload className="h-6 w-6 text-white" />
+                      )}
+                    </label>
+                  </div>
+                </div>
                 <div className="relative group">
                   <Avatar className="h-32 w-32 ring-4 ring-orange-200">
                     <AvatarImage src={previewUrl || user?.avatar} />
