@@ -12,7 +12,11 @@ import { useState } from 'react'; // Added import for useState
 export default function ProfilePage() {
   const { username } = useParams();
   const { user } = useAuth();
-  const [settingsOpen, setSettingsOpen] = useState(false); // Added state for settings modal
+  const [settingsOpen, setSettingsOpen] = useState(false);
+
+  const handleSettingsModalClose = () => {
+    setSettingsOpen(false);
+  };
 
   const { data: profile, isLoading } = useQuery({
     queryKey: ['profile', username],
@@ -99,11 +103,11 @@ export default function ProfilePage() {
                 <div className="mt-6 flex flex-wrap gap-4 text-sm text-gray-600">
                   <div className="flex items-center gap-2">
                     <CalendarDays className="h-4 w-4 text-blue-500" />
-                    <span>{new Date(profile.createdAt).toLocaleDateString('tr-TR', {
+                    <span>{profile.createdAt ? new Date(profile.createdAt).toLocaleDateString('tr-TR', {
                       year: 'numeric',
                       month: 'long',
                       day: 'numeric'
-                    })} tarihinde katıldı</span>
+                    }) : 'Bilinmeyen tarih'} tarihinde katıldı</span>
                   </div>
 
                   {profile.location && (
@@ -166,8 +170,7 @@ export default function ProfilePage() {
           </div>
         </div>
       </div>
-      {/* Placeholder for settings modal - needs implementation */}
-      {settingsOpen && <div>Settings Modal (Implementation Needed)</div>}
+      {settingsOpen && <SettingsModal open={settingsOpen} onClose={handleSettingsModalClose} />}
     </div>
   );
 }
