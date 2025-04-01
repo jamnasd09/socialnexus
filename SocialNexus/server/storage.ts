@@ -116,7 +116,7 @@ export class MemStorage implements IStorage {
       ...insertUser, 
       id, 
       isOnline: true,
-      tcVerified: false,
+      tcVerified: true, // TC doğrulaması başarılı olduğunda true olarak ayarla
       tcoins: 50, // Başlangıç bonus
       theme: "system",
       language: "tr",
