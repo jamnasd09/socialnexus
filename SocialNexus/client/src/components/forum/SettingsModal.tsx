@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -99,7 +98,7 @@ export default function SettingsModal({
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-orange-600">Profil Ayarları</DialogTitle>
         </DialogHeader>
-        
+
         <ScrollArea className="h-[600px] pr-4">
           <Tabs defaultValue="profile" className="w-full">
             <TabsList className="grid w-full grid-cols-3 mb-4">
@@ -163,7 +162,7 @@ export default function SettingsModal({
                 <div className="space-y-4">
                   <h3 className="text-lg font-semibold">Bildirim Tercihleri</h3>
                   <Separator />
-                  
+
                   {Object.entries({
                     email: "E-posta Bildirimleri",
                     privateMessage: "Özel Mesaj Bildirimleri",
@@ -201,15 +200,15 @@ export default function SettingsModal({
                       {user?.tcVerified ? "Onaylı Üye" : "Onaylanmamış Üye"}
                     </Badge>
                   </div>
-                  
+
                   <Separator className="my-6" />
-                  
+
                   <div className="space-y-4">
                     <h3 className="text-lg font-semibold text-red-600">Tehlikeli Bölge</h3>
                     <p className="text-sm text-gray-600">
                       Hesabınızı silmek geri alınamaz bir işlemdir. Tüm verileriniz kalıcı olarak silinecektir.
                     </p>
-                    
+
                     <AlertDialog>
                       <AlertDialogTrigger asChild>
                         <Button variant="destructive" className="w-full">
