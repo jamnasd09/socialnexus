@@ -19,6 +19,7 @@ interface AuthContextType {
   login: (username: string, password: string) => Promise<void>;
   register: (username: string, password: string, displayName: string, tcIdentity?: TcIdentityData) => Promise<void>;
   logout: () => Promise<void>;
+  updateProfile: (data: { displayName?: string; bio?: string; avatar?: string }) => Promise<User>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -144,13 +145,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const updateProfile = async (data: { displayName?: string; bio?: string; avatar?: string }) => {
+    try {
+      const res = await apiRequest('PATCH', '/api/users/me', data);
+      const updatedUser = await res.json();
+      setUser(updatedUser);
+      return updatedUser;
+    } catch (error: any) {
+      toast({
+        title: "Profile update failed",
+        description: error.message || "Could not update profile",
+        variant: "destructive",
+      });
+      throw error;
+    }
+  };
+
   const value = {
     user,
     isAuthenticated: !!user,
     isLoading,
     login,
     register,
-    logout
+    logout,
+    updateProfile
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
