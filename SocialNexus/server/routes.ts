@@ -629,6 +629,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Serve uploaded files
   app.use('/api/files', express.static('uploads'));
   
+  // Delete account endpoint
+  app.delete('/api/users/me', async (req: Request, res: Response) => {
+    if (!req.session.user) {
+      return res.status(401).json({ message: "Not authenticated" });
+    }
+
+    try {
+      await storage.deleteUser(req.session.user.id);
+      
+      req.session.destroy((err) => {
+        if (err) {
+          return res.status(500).json({ message: "Failed to logout after account deletion" });
+        }
+        res.clearCookie("connect.sid");
+        return res.status(200).json({ message: "Account deleted successfully" });
+      });
+    } catch (error: any) {
+      return res.status(500).json({ message: error.message || "Failed to delete account" });
+    }
+  });
+  
   // Market Routes
   app.get("/api/market", async (req: Request, res: Response) => {
     try {

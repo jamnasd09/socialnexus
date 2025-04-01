@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Search, X, Hash, Settings, LogOut } from 'lucide-react';
+import SettingsModal from "./SettingsModal"; // Added import for SettingsModal
 
 interface SidebarProps {
   onClose: () => void;
@@ -23,7 +24,8 @@ export function Sidebar({
 }: SidebarProps) {
   const { user, isAuthenticated } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
-  
+  const [showSettings, setShowSettings] = useState(false); // Added settings modal state
+
   const { categoriesWithTopics, isLoading, error } = useCategoriesWithTopics();
 
   const filteredCategories = categoriesWithTopics?.filter(category => 
@@ -32,7 +34,7 @@ export function Sidebar({
       topic.name.toLowerCase().includes(searchQuery.toLowerCase())
     )
   );
-  
+
   return (
     <>
       <div className="p-4 border-b border-gray-200 flex items-center justify-between">
@@ -46,12 +48,12 @@ export function Sidebar({
           >
             <X className="h-5 w-5" />
           </Button>
-          <Button variant="ghost" size="icon">
-            <Settings className="h-5 w-5 text-gray-500" />
+          <Button variant="ghost" size="icon" onClick={() => setShowSettings(true)} style={{ backgroundColor: "#FFA500", color: "#20B2AA" }}> {/* Orange-blue color scheme */}
+            <Settings className="h-5 w-5" />
           </Button>
         </div>
       </div>
-      
+
       {/* Search */}
       <div className="p-3">
         <div className="bg-gray-100 rounded-full flex items-center px-3 py-1.5">
@@ -65,7 +67,7 @@ export function Sidebar({
           />
         </div>
       </div>
-      
+
       {/* User Profile or Login */}
       <div className="p-3 flex items-center border-b border-gray-200">
         {isAuthenticated && user ? (
@@ -97,7 +99,7 @@ export function Sidebar({
       <div className="overflow-y-auto flex-1 scrollbar-hide">
         <div className="p-3">
           <h3 className="text-sm uppercase font-semibold text-gray-500 mb-2">Categories</h3>
-          
+
           {isLoading ? (
             // Loading skeletons
             <div className="space-y-4">
@@ -124,7 +126,7 @@ export function Sidebar({
                     {category.topics.length} topics
                   </span>
                 </div>
-                
+
                 {category.isTopicsLoading ? (
                   <div className="space-y-2 pl-3">
                     <Skeleton className="h-4 w-3/4" />
@@ -147,7 +149,7 @@ export function Sidebar({
               </div>
             ))
           )}
-          
+
           {filteredCategories?.length === 0 && !isLoading && (
             <div className="text-gray-500 text-center p-4">
               No categories or topics found for "{searchQuery}"
@@ -155,7 +157,7 @@ export function Sidebar({
           )}
         </div>
       </div>
-      
+
       {/* Log out */}
       {isAuthenticated && (
         <div className="p-3 border-t border-gray-200">
@@ -169,6 +171,8 @@ export function Sidebar({
           </Button>
         </div>
       )}
+
+      <SettingsModal show={showSettings} onClose={() => setShowSettings(false)} /> {/* Added SettingsModal */}
     </>
   );
 }
