@@ -164,6 +164,31 @@ export class MemStorage implements IStorage {
     }
     return undefined;
   }
+
+  async deleteUser(id: number): Promise<boolean> {
+    try {
+      // Kullanıcıya ait mesajları sil
+      const userMessages = Array.from(this.messages.values())
+        .filter(message => message.userId === id);
+      userMessages.forEach(message => this.messages.delete(message.id));
+
+      // Kullanıcıya ait thread'leri sil  
+      const userThreads = Array.from(this.threads.values())
+        .filter(thread => thread.userId === id);
+      userThreads.forEach(thread => this.threads.delete(thread.id));
+
+      // Kullanıcıya ait TCoin işlemlerini sil
+      const userTransactions = Array.from(this.tcoinTransactions.values())
+        .filter(transaction => transaction.userId === id);
+      userTransactions.forEach(transaction => this.tcoinTransactions.delete(transaction.id));
+
+      // Kullanıcıyı sil
+      return this.users.delete(id);
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      return false;
+    }
+  }
   
   // Category methods
   async getAllCategories(): Promise<Category[]> {
