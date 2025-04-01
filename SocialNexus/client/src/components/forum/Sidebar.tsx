@@ -172,7 +172,7 @@ export function Sidebar({
         </div>
       )}
 
-      <SettingsModal show={showSettings} onClose={() => setShowSettings(false)} /> {/* Added SettingsModal */}
+      <SettingsModal open={showSettings} onClose={() => setShowSettings(false)} />
     </>
   );
 }
