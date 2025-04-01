@@ -48,9 +48,10 @@ export function Sidebar({
           >
             <X className="h-5 w-5" />
           </Button>
-          <Button variant="ghost" size="icon" onClick={() => setShowSettings(true)} style={{ backgroundColor: "#FFA500", color: "#20B2AA" }}> {/* Orange-blue color scheme */}
+          <Button variant="ghost" size="icon" onClick={() => setShowSettings(true)}>
             <Settings className="h-5 w-5" />
           </Button>
+          <SettingsModal open={showSettings} onClose={() => setShowSettings(false)} />
         </div>
       </div>
 
