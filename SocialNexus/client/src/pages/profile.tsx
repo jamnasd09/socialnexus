@@ -104,11 +104,15 @@ export default function ProfilePage() {
                 <div className="mt-6 flex flex-wrap gap-4 text-sm text-gray-600">
                   <div className="flex items-center gap-2">
                     <CalendarDays className="h-4 w-4 text-blue-500" />
-                    <span>{profile.createdAt ? new Date(profile.createdAt).toLocaleDateString('tr-TR', {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric'
-                    }) : 'Bilinmeyen tarih'} tarihinde katıldı</span>
+                    <span>
+  {profile.createdAt && !isNaN(new Date(profile.createdAt).getTime())
+    ? new Date(profile.createdAt).toLocaleDateString('tr-TR', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      })
+    : 'Tarih verisi hatalı'} tarihinde katıldı
+</span>
                   </div>
 
                   {profile.location && (
