@@ -6,7 +6,6 @@ import { useAuth } from '@/components/auth/AuthProvider';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import { Card, CardHeader, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Button } from '@/components/ui/button';
 import { CalendarDays, MapPin, Link as LinkIcon, Mail } from 'lucide-react';
 
 export default function ProfilePage() {
@@ -15,8 +14,14 @@ export default function ProfilePage() {
   
   const { data: profile, isLoading } = useQuery({
     queryKey: ['profile', username],
-    queryFn: () => apiRequest('GET', `/api/profile/${username}`),
-    enabled: !!username // Only fetch when username is available
+    queryFn: async () => {
+      const res = await apiRequest('GET', `/api/profile/${username}`);
+      if (!res.ok) {
+        throw new Error('Failed to fetch profile');
+      }
+      return res.json();
+    },
+    enabled: !!username
   });
 
   if (isLoading) {
