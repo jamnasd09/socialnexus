@@ -48,7 +48,7 @@ export default function ProfilePage() {
         <CardHeader className="flex items-center gap-4">
           <Avatar className="h-24 w-24">
             <AvatarImage src={profile.avatar} />
-            <AvatarFallback>{profile.displayName[0]}</AvatarFallback>
+            <AvatarFallback>{profile.displayName ? profile.displayName[0] : '?'}</AvatarFallback>
           </Avatar>
           <div>
             <h1 className="text-2xl font-bold text-gray-900">{profile.displayName}</h1>
