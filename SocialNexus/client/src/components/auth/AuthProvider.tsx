@@ -148,9 +148,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const updateProfile = async (data: { displayName?: string; bio?: string; avatar?: string }) => {
     try {
       const res = await apiRequest('PATCH', '/api/users/me', data);
-      const updatedUser = await res.json();
-      setUser(updatedUser);
-      return updatedUser;
+      if (!res.ok) {
+        throw new Error('Failed to update profile');
+      }
+      const updatedUser = await res.json().catch(() => null);
+      if (updatedUser) {
+        setUser(updatedUser);
+        return updatedUser;
+      }
+      setUser(prev => ({ ...prev, ...data }));
+      return { ...user, ...data };
     } catch (error: any) {
       toast({
         title: "Profile update failed",
