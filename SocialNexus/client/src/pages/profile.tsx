@@ -1,4 +1,3 @@
-
 import { useParams } from 'wouter';
 import { useQuery } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
@@ -8,11 +7,13 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { CalendarDays, MapPin, Link as LinkIcon, Mail, Edit2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useState } from 'react'; // Added import for useState
 
 export default function ProfilePage() {
   const { username } = useParams();
   const { user } = useAuth();
-  
+  const [settingsOpen, setSettingsOpen] = useState(false); // Added state for settings modal
+
   const { data: profile, isLoading } = useQuery({
     queryKey: ['profile', username],
     queryFn: async () => {
@@ -64,13 +65,16 @@ export default function ProfilePage() {
             variant="outline" 
             size="sm"
             className="absolute top-4 right-4 bg-white/80 backdrop-blur-sm hover:bg-white"
+            onClick={() => {
+              setSettingsOpen(true);
+            }}
           >
             <Edit2 className="w-4 h-4 mr-2" />
             Profili Düzenle
           </Button>
         )}
       </div>
-      
+
       <div className="container mx-auto px-4">
         <div className="max-w-4xl mx-auto">
           <div className="bg-white rounded-xl shadow-lg -mt-24 p-6 relative">
@@ -79,7 +83,7 @@ export default function ProfilePage() {
                 <AvatarImage src={profile.avatar} />
                 <AvatarFallback className="text-3xl">{profile.displayName?.[0]}</AvatarFallback>
               </Avatar>
-              
+
               <div className="flex-1">
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                   <div>
@@ -87,11 +91,11 @@ export default function ProfilePage() {
                     <p className="text-gray-500">@{profile.username}</p>
                   </div>
                 </div>
-                
+
                 {profile.bio && (
                   <p className="mt-4 text-gray-700 leading-relaxed">{profile.bio}</p>
                 )}
-                
+
                 <div className="mt-6 flex flex-wrap gap-4 text-sm text-gray-600">
                   <div className="flex items-center gap-2">
                     <CalendarDays className="h-4 w-4 text-blue-500" />
@@ -101,14 +105,14 @@ export default function ProfilePage() {
                       day: 'numeric'
                     })} tarihinde katıldı</span>
                   </div>
-                  
+
                   {profile.location && (
                     <div className="flex items-center gap-2">
                       <MapPin className="h-4 w-4 text-blue-500" />
                       <span>{profile.location}</span>
                     </div>
                   )}
-                  
+
                   {profile.website && (
                     <div className="flex items-center gap-2">
                       <LinkIcon className="h-4 w-4 text-blue-500" />
@@ -122,7 +126,7 @@ export default function ProfilePage() {
                       </a>
                     </div>
                   )}
-                  
+
                   {profile.email && (
                     <div className="flex items-center gap-2">
                       <Mail className="h-4 w-4 text-blue-500" />
@@ -138,7 +142,7 @@ export default function ProfilePage() {
               </div>
             </div>
           </div>
-          
+
           <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
             <Card>
               <CardContent className="p-6">
@@ -162,6 +166,8 @@ export default function ProfilePage() {
           </div>
         </div>
       </div>
+      {/* Placeholder for settings modal - needs implementation */}
+      {settingsOpen && <div>Settings Modal (Implementation Needed)</div>}
     </div>
   );
 }
