@@ -130,7 +130,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Username already exists" });
       }
       
-      const user = await storage.createUser(data);
+      // TC doğrulaması başarılı olduğunda tcVerified'ı true yap
+      const userData = {
+        ...data,
+        tcVerified: true // TC doğrulaması başarılı olduğunda true olarak ayarla
+      };
+      
+      const user = await storage.createUser(userData);
       const { password, ...userWithoutPassword } = user;
       
       // Set user in session
