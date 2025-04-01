@@ -52,48 +52,53 @@ export default function ProfilePage() {
   return (
     <div className="min-h-screen bg-gray-100">
       <div className="w-full h-64 bg-gradient-to-r from-blue-400 to-blue-600" />
-      <div className="container mx-auto px-4 -mt-32">
-        <div className="bg-white rounded-lg shadow-lg">
-          <div className="p-4 flex items-end space-x-4">
-            <Avatar className="h-40 w-40 ring-4 ring-white">
-              <AvatarImage src={profile.avatar} />
-              <AvatarFallback>{profile.displayName?.[0]}</AvatarFallback>
-            </Avatar>
-            <div className="pb-4">
-              <h1 className="text-3xl font-bold text-gray-900">{profile.displayName}</h1>
-              <p className="text-gray-600">@{profile.username}</p>
+      <div className="container mx-auto px-4">
+        <div className="bg-white rounded-lg shadow-lg -mt-32">
+          <div className="p-6">
+            <div className="flex items-center gap-6">
+              <Avatar className="h-32 w-32 ring-4 ring-white">
+                <AvatarImage src={profile.avatar} />
+                <AvatarFallback>{profile.displayName?.[0]}</AvatarFallback>
+              </Avatar>
+              <div>
+                <h1 className="text-3xl font-bold text-gray-900">{profile.displayName}</h1>
+                <p className="text-gray-600">@{profile.username}</p>
+              </div>
             </div>
-          </div>
-          <div className="border-t border-gray-200">
-            <div className="p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-4">
-                {profile.bio && (
-                  <div className="text-gray-700">{profile.bio}</div>
-                )}
-                <div className="flex items-center gap-2 text-gray-600">
+            
+            <div className="mt-6 grid gap-4">
+              {profile.bio && (
+                <p className="text-gray-700">{profile.bio}</p>
+              )}
+              
+              <div className="flex flex-wrap gap-4 text-sm text-gray-600">
+                <div className="flex items-center gap-2">
                   <CalendarDays className="h-4 w-4" />
                   <span>Katılım: {new Date(profile.createdAt).toLocaleDateString('tr-TR')}</span>
                 </div>
+                
                 {profile.location && (
-                  <div className="flex items-center gap-2 text-gray-600">
+                  <div className="flex items-center gap-2">
                     <MapPin className="h-4 w-4" />
                     <span>{profile.location}</span>
                   </div>
                 )}
+                
                 {profile.website && (
-                  <div className="flex items-center gap-2 text-gray-600">
+                  <div className="flex items-center gap-2">
                     <LinkIcon className="h-4 w-4" />
                     <a href={profile.website} target="_blank" rel="noopener noreferrer" 
-                       className="text-blue-600 hover:underline">
+                      className="text-blue-600 hover:underline">
                       {profile.website}
                     </a>
                   </div>
                 )}
+                
                 {profile.email && (
-                  <div className="flex items-center gap-2 text-gray-600">
+                  <div className="flex items-center gap-2">
                     <Mail className="h-4 w-4" />
                     <a href={`mailto:${profile.email}`} 
-                       className="text-blue-600 hover:underline">
+                      className="text-blue-600 hover:underline">
                       {profile.email}
                     </a>
                   </div>
