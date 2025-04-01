@@ -10,10 +10,12 @@ import { CalendarDays, MapPin, Link as LinkIcon, Mail } from 'lucide-react';
 
 export default function ProfilePage() {
   const { username } = useParams();
+  const { user } = useAuth();
   
   const { data: profile, isLoading } = useQuery({
     queryKey: ['profile', username],
     queryFn: () => apiRequest('GET', `/api/profile/${username}`),
+    enabled: !!username // Only fetch when username is available
   });
 
   if (isLoading) {
