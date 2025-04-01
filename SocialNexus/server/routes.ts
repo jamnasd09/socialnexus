@@ -116,6 +116,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
               message: "TC kimlik doğrulaması başarısız: " + validationResult.message 
             });
           }
+          // Set tcVerified based on validation success
+          data.tcVerified = true;
         } catch (validationError: any) {
           return res.status(500).json({ 
             message: "TC kimlik doğrulama sırasında bir hata oluştu: " + validationError.message 
