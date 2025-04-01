@@ -104,7 +104,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     if (error) return res.status(400).json({ message: error });
 
     try {
-      const { tcNo, firstName, lastName, yearOfBirth } = req.body;
+      const { tcNo, firstName, lastName, yearOfBirth } = data;
 
       // TC Kimlik doğrulaması isteği
       if (tcNo && firstName && lastName && yearOfBirth) {
