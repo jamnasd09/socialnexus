@@ -52,7 +52,7 @@ export default function SettingsModal({
     // Upload
     const result = await uploadFile(file);
     if (result.success && result.fileUrl) {
-      await updateProfile({ avatar: result.fileUrl });
+      await updateProfile({ displayName, bio, avatar: result.fileUrl });
       toast({
         title: "Profil fotoğrafı güncellendi",
         description: "Fotoğrafınız başarıyla yüklendi.",
