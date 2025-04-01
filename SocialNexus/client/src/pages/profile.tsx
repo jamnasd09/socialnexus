@@ -10,7 +10,7 @@ import { CalendarDays, MapPin, Link as LinkIcon, Mail } from 'lucide-react';
 
 export default function ProfilePage() {
   const { username } = useParams();
-
+  
   const { data: profile, isLoading } = useQuery({
     queryKey: ['profile', username],
     queryFn: () => apiRequest('GET', `/api/profile/${username}`),
@@ -50,27 +50,25 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="container mx-auto p-4">
-      <Card>
-        <CardHeader className="flex items-center gap-4">
-          <Avatar className="h-24 w-24">
-            <AvatarImage src={profile.avatar} />
-            <AvatarFallback>{profile.displayName ? profile.displayName[0] : '?'}</AvatarFallback>
-          </Avatar>
-          <div className="flex-1">
-            <div className="flex items-center justify-between">
-              <div>
-                <h1 className="text-2xl font-bold text-gray-900">{profile.displayName}</h1>
-                <p className="text-gray-600">@{profile.username}</p>
-              </div>
-              <Button variant="outline">Düzenle</Button>
+    <div className="container mx-auto p-4 max-w-4xl">
+      <Card className="bg-white shadow-lg">
+        <div className="h-48 bg-gradient-to-r from-blue-400 to-blue-600 rounded-t-lg" />
+        <CardHeader className="relative">
+          <div className="absolute -top-16 left-6 flex items-end gap-6">
+            <Avatar className="h-32 w-32 ring-4 ring-white">
+              <AvatarImage src={profile.avatar} />
+              <AvatarFallback>{profile.displayName ? profile.displayName[0] : '?'}</AvatarFallback>
+            </Avatar>
+            <div className="mb-2">
+              <h1 className="text-3xl font-bold text-gray-900">{profile.displayName}</h1>
+              <p className="text-gray-600">@{profile.username}</p>
             </div>
-            {profile.bio && (
-              <p className="mt-2 text-gray-700">{profile.bio}</p>
-            )}
           </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-20">
+          {profile.bio && (
+            <p className="text-gray-700 mb-6">{profile.bio}</p>
+          )}
           <div className="grid gap-4">
             <div className="flex items-center gap-2 text-gray-600">
               <CalendarDays className="h-4 w-4" />
