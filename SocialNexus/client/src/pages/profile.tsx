@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useParams } from 'wouter';
 import { useQuery } from '@tanstack/react-query';
 import { apiRequest } from '@/lib/queryClient';
@@ -7,7 +8,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { CalendarDays, MapPin, Link as LinkIcon, Mail, Edit2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useState } from 'react'; // Added import for useState
+import { SettingsModal } from '@/components/forum/SettingsModal';
 
 export default function ProfilePage() {
   const { username } = useParams();
